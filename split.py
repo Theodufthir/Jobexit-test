@@ -1,24 +1,27 @@
+import datetime as Date
 from datetime import date
 from calendar import monthrange
 
+Period = tuple[Date, Date, float]
+
 # Returns the difference between two dates in months
-def diff_month_nb(start, end):
+def diff_month_nb(start: Date, end: Date) -> int:
     return (end.year - start.year) * 12 + end.month - start.month
 
 
 # Splits the part time periods that are shared between months to ones contained in it
-def split_periods_monthly(ptime_list, start, end):
+def split_periods_monthly(ptime_list: list[Period], start: Date, end: Date) -> list[Period]:
 
     # initialize the monthly list
-    month_nb = diff_month_nb(start, end) + 1
-    monthly_ptime_list = [[] for i in range(month_nb)]
+    month_nb: int = diff_month_nb(start, end) + 1
+    monthly_ptime_list: list[list[Period]] = [[] for i in range(month_nb)]
     if ptime_list[0][0] < start:
         monthly_ptime_list[0].append((start, ptime_list[0][0], 0))
 
     # loop on non-split part time periods
     for (p_start, p_end, p_rate) in ptime_list:
-        p_month_nb = diff_month_nb(p_start, p_end)
-        starting_index = diff_month_nb(start, p_start)
+        p_month_nb: int = diff_month_nb(p_start, p_end)
+        starting_index: int = diff_month_nb(start, p_start)
 
         # if the period is within the month, no need to split
         if (p_month_nb == 0):
@@ -26,15 +29,15 @@ def split_periods_monthly(ptime_list, start, end):
             continue
 
         # adding the start of the part time period to the month
-        curr_year = p_start.year
-        curr_month = p_start.month
-        new_period = (
+        curr_year: int = p_start.year
+        curr_month: int = p_start.month
+        new_period: Period = (
                 p_start,
                 date(curr_year, curr_month, monthrange(curr_year, curr_month)[1]),
                 p_rate)
         monthly_ptime_list[starting_index].append(new_period)
 
-        ending_index = diff_month_nb(start, p_end)
+        ending_index: int = diff_month_nb(start, p_end)
 
         # loop for full months within the period
         for i in range(starting_index + 1, ending_index):
