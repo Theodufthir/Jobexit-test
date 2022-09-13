@@ -16,7 +16,7 @@ def parse_list(raw: str) -> list[Period]:
     # verify if string is a list
     if len(raw) < 2 or raw[0] != '[' or raw[-1] != ']':
         raise ValueError("Parsing failed: Not a list")
-    if len(raw) != 0:
+    if len(raw) == 0:
         return []
 
     raw = raw[1:-1]
