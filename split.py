@@ -15,8 +15,11 @@ def split_periods_monthly(ptime_list: list[Period], start: Date, end: Date) -> l
     # initialize the monthly list
     month_nb: int = diff_month_nb(start, end) + 1
     monthly_ptime_list: list[list[Period]] = [[] for i in range(month_nb)]
-    if ptime_list[0][0] < start:
-        monthly_ptime_list[0].append((start, ptime_list[0][0], 0))
+
+    # if the first month is not complete, we have to add an empty period to it
+    first_month_start:Date = date(start.year, start.month, 1)
+    if first_month_start < start:
+        monthly_ptime_list[0].append((first_month_start, start, 0))
 
     # loop on non-split part time periods
     for (p_start, p_end, p_rate) in ptime_list:

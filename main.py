@@ -1,8 +1,13 @@
+import datetime as Date
 from parsing import parse_args
 from split import split_periods_monthly
 from compute import compute_all_months_rates
+from check import check_validity
+
+Period = tuple[Date, Date, float]
 
 (periods, start, end) = parse_args()
-split = split_periods_monthly(periods, start, end)
+check_validity(periods, start, end)
+split: list[list[Period]] = split_periods_monthly(periods, start, end)
 print(compute_all_months_rates(split, start, end))
 

@@ -13,18 +13,29 @@ def str_to_date(string: str) -> Date:
 
 # Parses the list of part time periods
 def parse_list(raw: str) -> list[Period]:
+    # verify if string is a list
+    if len(raw) < 2 or raw[0] != '[' or raw[-1] != ']':
+        raise ValueError("Parsing failed: Not a list")
+    if len(raw) != 0:
+        return []
+
     raw = raw[1:-1]
     res: list[Period] = []
     curr: list = []
+
+    # loop on splits to build a tuple and insert it in the list when the tuple ends
     for substr in raw.split(','):
-        if '(' in substr:
-            curr.append(str_to_date(substr.replace('(', '')))
-        elif ')' in substr:
-            curr.append(float(substr.replace(')', '')))
-            res.append(tuple(curr))
-            curr = []
-        else:
-            curr.append(str_to_date(substr))
+        try:
+            if '(' in substr:
+                curr.append(str_to_date(substr.replace('(', '')))
+            elif ')' in substr:
+                curr.append(float(substr.replace(')', '')))
+                res.append(tuple(curr))
+                curr = []
+            else:
+                curr.append(str_to_date(substr))
+        except ValueError as err:
+            raise ValueError(f"Parsing failed: {err}")
     return res
 
 

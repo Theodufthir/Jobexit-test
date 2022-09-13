@@ -15,7 +15,7 @@ def compute_month_rate(ptime_list: list[Period], year: Date, month: Date) -> flo
         ptime += period_len / month_len
     res += (1 - ptime) # adding full time rate
 
-    return res
+    return round(res, 2)
 
 # Returns the list of rates for all months
 def compute_all_months_rates(month_periods: list[list[Period]], start: Date, end: Date) -> list[float]:
