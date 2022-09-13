@@ -10,7 +10,7 @@ def diff_month_nb(start: Date, end: Date) -> int:
 
 
 # Splits the part time periods that are shared between months to ones contained in it
-def split_periods_monthly(ptime_list: list[Period], start: Date, end: Date) -> list[Period]:
+def split_periods_monthly(ptime_list: list[Period], start: Date, end: Date) -> tuple[list[Period], Date]:
 
     # initialize the monthly list
     month_nb: int = diff_month_nb(start, end) + 1
@@ -57,8 +57,10 @@ def split_periods_monthly(ptime_list: list[Period], start: Date, end: Date) -> l
         new_period = (date(curr_year, curr_month, 1), p_end, p_rate)
         monthly_ptime_list[ending_index].append(new_period)
 
-    # if the last month is not finished, we have to remove it
-    if end.day < monthrange(end.year, end.month)[1]:
-        monthly_ptime_list.pop()
+    new_start: Date = start
+    monthly_ptime_list.pop()
+    if month_nb > 12:
+        new_start = date(end.year - 1, (end.month + 11) % 12 + 1, 1)
+        del monthly_ptime_list[0:(month_nb - 13)]
 
-    return monthly_ptime_list
+    return monthly_ptime_list, new_start

@@ -8,6 +8,6 @@ Period = tuple[Date, Date, float]
 
 (periods, start, end) = parse_args()
 check_validity(periods, start, end)
-split: list[list[Period]] = split_periods_monthly(periods, start, end)
+split, start = split_periods_monthly(periods, start, end)
 print(compute_all_months_rates(split, start, end))
 
