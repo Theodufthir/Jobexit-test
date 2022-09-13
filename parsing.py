@@ -8,7 +8,7 @@ Period = tuple[Date, Date, float]
 
 # Returns a datetime object from a string with format YYYY-MM-DD
 def str_to_date(string: str) -> Date:
-    tmp: time = strptime(string, "%Y-%m-%d")
+    tmp: Time = strptime(string, "%Y-%m-%d")
     return date(tmp.tm_year, tmp.tm_mon, tmp.tm_mday)
 
 # Parses the list of part time periods

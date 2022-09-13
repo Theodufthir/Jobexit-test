@@ -36,8 +36,17 @@ def check_inversed_dates(periods: list[Period], start, end):
         if p_end > end:
             raise ValueError(f"Period {i} end date is later than the end date of the employement")
 
+# Check if any rate is over 1 or negative
+def check_invalid_rate(periods: list[Period]):
+    i: int = 0
+    for (_, _, rate) in periods:
+        i += 1
+        if rate > 1 or rate < 0:
+            raise ValueError(f"Period {i}: Rate should be between 0 and 1")
+
 
 # Check if the validity of all the data
 def check_validity(periods: list, start: Date, end: Date):
+    check_invalid_rate(periods)
     check_inversed_dates(periods, start, end)
     check_overlapping_periods(periods)

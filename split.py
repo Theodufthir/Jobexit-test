@@ -17,7 +17,7 @@ def split_periods_monthly(ptime_list: list[Period], start: Date, end: Date) -> l
     monthly_ptime_list: list[list[Period]] = [[] for i in range(month_nb)]
 
     # if the first month is not complete, we have to add an empty period to it
-    first_month_start:Date = date(start.year, start.month, 1)
+    first_month_start: Date = date(start.year, start.month, 1)
     if first_month_start < start:
         monthly_ptime_list[0].append((first_month_start, start, 0))
 
@@ -27,7 +27,7 @@ def split_periods_monthly(ptime_list: list[Period], start: Date, end: Date) -> l
         starting_index: int = diff_month_nb(start, p_start)
 
         # if the period is within the month, no need to split
-        if (p_month_nb == 0):
+        if p_month_nb == 0:
             monthly_ptime_list[starting_index].append((p_start, p_end, p_rate))
             continue
 
@@ -35,9 +35,9 @@ def split_periods_monthly(ptime_list: list[Period], start: Date, end: Date) -> l
         curr_year: int = p_start.year
         curr_month: int = p_start.month
         new_period: Period = (
-                p_start,
-                date(curr_year, curr_month, monthrange(curr_year, curr_month)[1]),
-                p_rate)
+            p_start,
+            date(curr_year, curr_month, monthrange(curr_year, curr_month)[1]),
+            p_rate)
         monthly_ptime_list[starting_index].append(new_period)
 
         ending_index: int = diff_month_nb(start, p_end)
@@ -48,9 +48,9 @@ def split_periods_monthly(ptime_list: list[Period], start: Date, end: Date) -> l
             curr_month = curr_month % 12 + 1
 
             new_period = (
-                    date(curr_year, curr_month, 1),
-                    date(curr_year, curr_month, monthrange(curr_year, curr_month)[1]),
-                    p_rate)
+                date(curr_year, curr_month, 1),
+                date(curr_year, curr_month, monthrange(curr_year, curr_month)[1]),
+                p_rate)
             monthly_ptime_list[i].append(new_period)
 
         # adding the end of the part time period to the month
