@@ -19,5 +19,5 @@ All dates follow the format "YYYY-MM-DD" and the rates are to be inputed as deci
 The list is comprised of tuples using the format "(date,date,rate)", and the list itself is using the format "[tuple,tuple]" with any number of tuples separated by commas.
 
 So for a job that starts the 1st of january 2019, ends the 31st of december 2019 and has a part time period at a rate of 80% starting on the 16th of june, the command would be :
-`python main.py '[(2019-06-16,2019-12-31,0.8)]' 2019-01-01 2018-12-31`
+`python main.py '[(2019-06-16,2019-12-31,0.8)]' 2019-01-01 2019-12-31`
 
